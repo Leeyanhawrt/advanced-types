@@ -1,17 +1,17 @@
-type Combinable = number | string;
-type Numeric = boolean | number;
-type Universal = Numeric & Combinable;
+// type Combinable = number | string;
+// type Numeric = boolean | number;
+// type Universal = Numeric & Combinable;
 
 // This is known as type guarding using typeof, even though Combinable accepts both number and string inputs typescript
 // will error out if not accounting for different utilization of each type that is potentially valid
 
 //TYPECAST TYPEOF
-const add = (n1: Combinable, n2: Combinable): Combinable => {
-  if (typeof n1 === "string" || typeof n2 === "string") {
-    return n1.toString() + n2.toString();
-  }
-  return n1 + n2;
-};
+// const add = (n1: Combinable, n2: Combinable): Combinable => {
+//   if (typeof n1 === "string" || typeof n2 === "string") {
+//     return n1.toString() + n2.toString();
+//   }
+//   return n1 + n2;
+// };
 
 //TYPECAST KEY IN OBJECT
 type Admin = {
