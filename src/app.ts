@@ -121,3 +121,15 @@ const userInput = (<HTMLInputElement>(
 if (userInput) {
   (userInput as HTMLInputElement).value = "Hello there!";
 }
+
+// Index Properties with undetermined number of keys { email: 'Not a valid email', username: 'Must start with a character'}
+interface ErrorContainer {
+  id: string; // Predetermined properties must be the same as index property
+  [prop: string]: string; // Key must be string as well as value, [] indicates we do not know how many properties there will be
+}
+
+const errorBag: ErrorContainer = {
+  id: "1", // ID must be included if added as a predetermined property within the interface
+  email: "Not a valid email",
+  username: "Must start with a capital character!",
+};
