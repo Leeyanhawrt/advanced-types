@@ -1,4 +1,16 @@
-// Intersection Types, can also be done with interfaces
+type Combinable = number | string;
+type Numeric = boolean | number;
+type Universal = Numeric & Combinable;
+
+// This is known as type guarding using typeof, even though Combinable accepts both number and string inputs typescript
+// will error out if not accounting for different utilization of each type that is potentially valid
+
+const add = (n1: Combinable, n2: Combinable): Combinable => {
+  if (typeof n1 === "string" || typeof n2 === "string") {
+    return n1.toString() + n2.toString();
+  }
+  return n1 + n2;
+};
 
 type Admin = {
   name: string;
@@ -10,41 +22,60 @@ type Employee = {
   startDate: Date;
 };
 
-type SuperEmployee = Admin & Employee;
+type ElevatedEmployee = Admin & Employee;
+type UnknownEmployee = Employee | Admin;
 
-const e1: SuperEmployee = {
+const e1: ElevatedEmployee = {
   name: "Ellissa",
-  privilages: ["queen status"],
   startDate: new Date(),
+  privilages: ["queen status"],
 };
 
-console.log(e1);
-
-type Numeric = boolean | number;
-type Combinable = string | number;
-type Universal = Numeric & Combinable;
-
-// const test: Universal = false This is invalid because type Universal has an intersection of Number ONLY
-const test: Universal = 5; // Works because Universal comprises of Numeric and Combinable which both include number for typing
-
-// Intersection types using interfaces
-
-interface Administrator {
-  name: string;
-  privilages: string[];
-}
-
-interface WorkerEmployee {
-  name: string;
-  startDate: Date;
-}
-
-interface AdminEmployee extends WorkerEmployee, Administrator {}
-
-const e: AdminEmployee = {
-  name: "Ellissa",
-  privilages: ["queen status"],
-  startDate: new Date(),
+const printEmployeeInformation = (emp: UnknownEmployee) => {
+  console.log(`Name: ${emp.name}`);
+  // console.log(emp.privilages); Will error as employee COULD or COULD NOT have the priviliages property based off which type it is built off of
+  // This is a type guard that checks if certain keys exist within the object param being passed in
+  if ("privilages" in emp) {
+    console.log("Privilages: " + emp.privilages);
+  }
+  if ("startDate" in emp) {
+    console.log("Start Date: " + emp.startDate);
+  }
 };
 
-console.log(e);
+printEmployeeInformation(e1);
+
+class Car {
+  drive() {
+    console.log("Driving...");
+  }
+}
+
+class Truck {
+  drive() {
+    console.log("Driving... a truck");
+  }
+
+  loadCargo(amount: number) {
+    console.log("Loading cargo... " + amount);
+  }
+}
+
+type Vehicle = Car | Truck;
+
+const v1 = new Car();
+const v2 = new Truck();
+
+const useVehicle = (vehicle: Vehicle) => {
+  vehicle.drive();
+  // if ("loadCargo" in vehicle) { This is a valid alternative to instanceOf
+  //   vehicle.loadCargo(5);
+  // }
+  // Instance of type guard that checks if instance object was created by a certain Class
+  if (vehicle instanceof Truck) {
+    vehicle.loadCargo(1000);
+  }
+};
+
+useVehicle(v1);
+useVehicle(v2);
