@@ -133,3 +133,8 @@ const errorBag: ErrorContainer = {
   email: "Not a valid email",
   username: "Must start with a capital character!",
 };
+
+// NULLISH COALESCING
+// Similar to OR / AND checks, however only applies if value is NULL or UNDEFINED
+const data = null;
+const storedData = data ?? "DEFAULT"; // ?? Determines if value is null or undefined, if so storedData = DEFAULT
