@@ -5,6 +5,7 @@ type Universal = Numeric & Combinable;
 // This is known as type guarding using typeof, even though Combinable accepts both number and string inputs typescript
 // will error out if not accounting for different utilization of each type that is potentially valid
 
+//TYPECAST TYPEOF
 const add = (n1: Combinable, n2: Combinable): Combinable => {
   if (typeof n1 === "string" || typeof n2 === "string") {
     return n1.toString() + n2.toString();
@@ -12,6 +13,7 @@ const add = (n1: Combinable, n2: Combinable): Combinable => {
   return n1 + n2;
 };
 
+//TYPECAST KEY IN OBJECT
 type Admin = {
   name: string;
   privilages: string[];
@@ -45,6 +47,7 @@ const printEmployeeInformation = (emp: UnknownEmployee) => {
 
 printEmployeeInformation(e1);
 
+// TYPE GUARD INSTANCEOF
 class Car {
   drive() {
     console.log("Driving...");
@@ -80,6 +83,7 @@ const useVehicle = (vehicle: Vehicle) => {
 useVehicle(v1);
 useVehicle(v2);
 
+// DISCRIMATED UNIONS
 interface Bird {
   type: "bird";
   flyingSpeed: number;
@@ -106,3 +110,14 @@ const moveAnimal = (animal: Animal) => {
 };
 
 moveAnimal({ type: "bird", flyingSpeed: 5 });
+
+// TYPECASTING
+// const userInput = <HTMLInputElement>document.getElementById("user-input"); Method 1
+const userInput = (<HTMLInputElement>(
+  document.getElementById("user-input")!
+)) as HTMLInputElement; // Method 2 Exclamation marks stats that the value will never yield NULL if unsure use if check
+
+// Will get an error stating that value may not exist unless explicitly telling TypeScript that the element is an input element
+if (userInput) {
+  (userInput as HTMLInputElement).value = "Hello there!";
+}
